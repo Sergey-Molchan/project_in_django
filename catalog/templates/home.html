@@ -1,58 +1,19 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная - Интернет-магазин</title>
-    <!-- Подключаем Bootstrap CSS через CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 100px 0;
-        }
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: #667eea;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-        }
-    </style>
-</head>
-<body>
-    <!-- Навигация -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <strong>iShop</strong>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/">Главная</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contacts/">Контакты</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+{% extends 'base.html' %}
 
+{% block title %}Главная - iShop{% endblock %}
+
+{% block content %}
     <!-- Герой-секция -->
     <section class="hero-section text-center">
         <div class="container">
             <h1 class="display-4 fw-bold mb-4">Добро пожаловать в iShop</h1>
             <p class="lead mb-4">Лучшие товары по доступным ценам с быстрой доставкой</p>
-            <a href="/contacts/" class="btn btn-light btn-lg">Связаться с нами</a>
+            <p class="mb-4">
+                <strong>В нашем магазине:</strong><br>
+                {{ categories_count }} категорий и {{ products_count }} товаров
+            </p>
+            <!-- ИСПРАВЛЕННАЯ ССЫЛКА -->
+            <a href="{% url 'catalog:contacts' %}" class="btn btn-light btn-lg">Связаться с нами</a>
         </div>
     </section>
 
@@ -85,51 +46,48 @@
         </div>
     </section>
 
-    <!-- Популярные товары -->
+    <!-- Популярные категории -->
     <section class="bg-light py-5">
         <div class="container">
             <h2 class="text-center mb-5">Популярные категории</h2>
             <div class="row">
                 <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="https://via.placeholder.com/300x200?text=Электроника" class="card-img-top" alt="Электроника">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Электроника</h5>
-                            <p class="card-text">Смартфоны, ноутбуки, планшеты и аксессуары</p>
+                    <!-- ИСПРАВЛЕННАЯ ССЫЛКА -->
+                    <a href="{% url 'catalog:electronics' %}" class="text-decoration-none">
+                        <div class="card h-100 category-card">
+                            <img src="https://via.placeholder.com/300x200?text=Электроника" class="card-img-top" alt="Электроника">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-dark">Электроника</h5>
+                                <p class="card-text text-muted">Смартфоны, ноутбуки, планшеты и аксессуары</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="https://via.placeholder.com/300x200?text=Одежда" class="card-img-top" alt="Одежда">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Одежда</h5>
-                            <p class="card-text">Модная одежда для всех возрастов</p>
+                    <!-- ИСПРАВЛЕННАЯ ССЫЛКА -->
+                    <a href="{% url 'catalog:cloth' %}" class="text-decoration-none">
+                        <div class="card h-100 category-card">
+                            <img src="https://via.placeholder.com/300x200?text=Одежда" class="card-img-top" alt="Одежда">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-dark">Одежда</h5>
+                                <p class="card-text text-muted">Модная одежда для всех возрастов</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="https://via.placeholder.com/300x200?text=Дом+и+сад" class="card-img-top" alt="Дом и сад">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Дом и сад</h5>
-                            <p class="card-text">Все для уюта в вашем доме</p>
+                    <!-- ИСПРАВЛЕННАЯ ССЫЛКА -->
+                    <a href="{% url 'catalog:house_garden' %}" class="text-decoration-none">
+                        <div class="card h-100 category-card">
+                            <img src="https://via.placeholder.com/300x200?text=Дом+и+сад" class="card-img-top" alt="Дом и сад">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-dark">Дом и сад</h5>
+                                <p class="card-text text-muted">Все для уюта в вашем доме</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Футер -->
-    <footer class="bg-dark text-white py-4">
-        <div class="container text-center">
-            <p>&copy; 2024 iShop. Все права защищены.</p>
-            <p class="mb-0">Телефон: +7 (495) 123-45-67 | Email: info@ishop.ru</p>
-        </div>
-    </footer>
-
-    <!-- Подключаем Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}
