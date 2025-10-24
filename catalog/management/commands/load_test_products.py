@@ -9,14 +9,14 @@ class Command(BaseCommand):
         from catalog.models import Product, Category, Contact
 
         # Удаляем старые данные
-        self.stdout.write('🗑️ Удаление старых данных...')
+        self.stdout.write('Удаление старых данных...')
         Product.objects.all().delete()
         Category.objects.all().delete()
         Contact.objects.all().delete()
         self.stdout.write(self.style.SUCCESS(' Старые данные удалены'))
 
         # Загружаем фикстуры
-        self.stdout.write('📁 Загрузка фикстур...')
+        self.stdout.write(' Загрузка фикстур...')
 
         fixtures = ['category.json', 'product.json', 'contact.json']
 
