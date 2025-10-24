@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Дом и сад - iShop{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Хлебные крошки -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'catalog:home' %}">Главная</a></li>
+            <li class="breadcrumb-item active">Дом и сад</li>
+        </ol>
+    </nav>
+
+    <h1 class="text-center mb-5">Дом и сад</h1>
+
+    <div class="row">
+        {% for product in house_garden_products %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 category-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text"><strong>{{ product.price }} ₽</strong></p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary w-100">В корзину</button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="lead">Товары временно отсутствуют</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
