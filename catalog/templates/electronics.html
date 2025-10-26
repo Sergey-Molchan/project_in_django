@@ -28,13 +28,17 @@
                 {% endif %}
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ product.name }}</h5>
-                    <p class="card-text">{{ product.description }}</p>
+                    <!-- ИЗМЕНЕНИЕ: сокращаем описание -->
+                    <p class="card-text">{{ product.description|truncatechars:100 }}</p>
                     <p class="card-text"><strong>{{ product.price }} ₽</strong></p>
                 </div>
                 <div class="card-footer">
+                    <!-- ИЗМЕНЕНИЕ: добавляем ссылку на детальную страницу -->
+                    <a href="{% url 'catalog:product_detail' pk=product.pk %}"
+                       class="btn btn-outline-primary w-100 mb-2">Подробнее</a>
                     <button class="btn btn-primary w-100">В корзину</button>
-    </div>
-</div>
+                </div>
+            </div>
         </div>
         {% empty %}
         <div class="col-12 text-center">
