@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Category, Product
 
 def home(request):
@@ -33,3 +33,8 @@ def house_garden(request):
         'house_garden_products': house_garden_products
     }
     return render(request, 'house_garden.html', context)
+
+
+def product_detail(request, pk): #Добавил обрабокту ошибки
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'product_detail.html', {'product': product})
