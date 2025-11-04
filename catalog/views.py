@@ -1,40 +1,46 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Category, Product
-
-def home(request):
-    categories_count = Category.objects.count()
-    products_count = Product.objects.count()
-    context = {
-        'categories_count': categories_count,
-        'products_count': products_count,
-    }
-    return render(request, 'home.html', context)
-
-def contacts(request):
-    return render(request, 'contacts.html')
-
-def electronics(request):
-    electronics_products = Product.objects.filter(category__name='Электроника')
-    context = {
-        'electronics_products': electronics_products
-    }
-    return render(request, 'electronics.html', context)
-
-def cloth(request):
-    clothing_products = Product.objects.filter(category__name='Одежда')
-    context = {
-        'clothing_products': clothing_products
-    }
-    return render(request, 'cloth.html', context)
-
-def house_garden(request):
-    house_garden_products = Product.objects.filter(category__name='Дом и сад')
-    context = {
-        'house_garden_products': house_garden_products
-    }
-    return render(request, 'house_garden.html', context)
+from django.views.generic import UpdateView, DetailView, CreateView, TemplateView, ListView
 
 
-def product_detail(request, pk): #Добавил обрабокту ошибки
-    product = get_object_or_404(Product, pk=pk)
-    return render(request, 'product_detail.html', {'product': product})
+class HomeView(TemplateView):
+    template_name = 'home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories_count'] = Category.objects.count()
+        context['products_count'] = Product.objects.count()
+        return context
+
+
+class ContactsViev(TemplateView):
+    template_name = 'contacts.html'
+
+
+class ElectronicsView(ListView):
+    template_name = 'electronics.html'
+    context_object_name = 'electronics_products'
+
+    def get_queryset(self):
+        return Product.objects.filter(category__name='Электроника')
+
+
+class ClothView(ListView):
+    template_name = 'cloth.html'
+    context_object_name = 'clothing_products'
+
+    def get_queryset(self):
+        return Product.objects.filter(category__name='Одежда')
+
+
+class HouseGardenView(ListView):
+    template_name = 'house_garden.html'
+    context_object_name = 'house_garden_products'
+
+    def get_queryset(self):
+        return Product.objects.filter(category__name='Дом и сад')
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'product_detail.html'

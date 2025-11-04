@@ -1,4 +1,6 @@
 from django.db import models
+from django.views.generic import UpdateView, DetailView, CreateView, TemplateView, ListView
+
 
 
 class Category(models.Model):
@@ -44,3 +46,4 @@ class Contact(models.Model):
 
     def __str__(self):
         return 'Контактная информация'
+

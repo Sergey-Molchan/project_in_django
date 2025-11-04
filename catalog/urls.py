@@ -1,14 +1,14 @@
 from django.urls import path
-from . import views
-
-app_name= 'catalog'
-
+from .views import (
+    HomeView, ContactsViev, ElectronicsView,
+    ClothView, HouseGardenView, ProductDetailView
+)
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('contacts/', views.contacts, name='contacts'),
-    path('electronics/', views.electronics, name='electronics'),
-    path('cloth/', views.cloth, name='cloth'),
-    path('house-garden/', views.house_garden, name='house_garden'),
-    path('product/<int:pk>/', views.product_detail, name='product_detail'),
+    path('', HomeView.as_view(), name='home'),
+    path('contacts/', ContactsViev.as_view(), name='contacts'),
+    path('electronics/', ElectronicsView.as_view(), name='electronics'),
+    path('cloth/', ClothView.as_view(), name='cloth'),
+    path('house-garden/', HouseGardenView.as_view(), name='house_garden'),
+    path('product/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
 ]
