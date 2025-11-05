@@ -5,15 +5,15 @@ from .models import Blog
 
 class BlogListView(ListView):
     model = Blog
-    template_name = 'blog/templates/blog_list.html'
+    template_name = 'blog/blog_list.html'
 
     def get_queryset(self):
-        return Blog.object.filter(is_published=True)
+        return Blog.objects.filter(is_published=True)
 
 
 class BlogDetailView(DetailView):
     model = Blog
-    template_name = 'blog/templates/blog_detail.html'
+    template_name = 'blog/blog_detail.html'
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -24,13 +24,14 @@ class BlogDetailView(DetailView):
 
 class BlogCreateView(CreateView):
     model = Blog
-    template_name = 'blog/templates/blog_form.html'
+    template_name = 'blog/blog_form.html'
     fields = ['title', 'content', 'image', 'is_published']
+    success_url = reverse_lazy('blog_list')
 
 
 class BlogUpdateView(UpdateView):
     model = Blog
-    template_name = 'blog/templates/blog_form.html'
+    template_name = 'blog/blog_form.html'
     fields = ['title', 'content', 'image', 'is_published']
 
     def get_success_url(self):
