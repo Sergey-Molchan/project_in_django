@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Статьи блога</h1>
+<a href="{% url 'blog_create' %}">Написать статью</a>
+
+{% for blog in blog_list %}
+<div>
+    <h2><a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a></h2>
+    <p>{{ blog.created_at }} | Просмотров: {{ blog.views_count }}</p>
+    {% if blog.image %}
+    <img src="{{ blog.image.url }}" alt="{{ blog.title }}" width="200">
+    {% endif %}
+</div>
+{% empty %}
+<p>Пока нет статей</p>
+{% endfor %}
+{% endblock %}

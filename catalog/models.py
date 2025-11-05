@@ -1,5 +1,5 @@
 from django.db import models
-from django.views.generic import UpdateView, DetailView, CreateView, TemplateView, ListView
+
 
 
 
