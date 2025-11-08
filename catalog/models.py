@@ -20,7 +20,6 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
-    # ⬅️ ДОБАВЛЯЕМ СВЯЗЬ С ПОЛЬЗОВАТЕЛЕМ
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Создатель', null=True, blank=True)
 
     class Meta:
