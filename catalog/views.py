@@ -68,5 +68,5 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = 'product_confirm_delete.html'
-    success_url = reverse_lazy('catalog:index')
+    success_url = reverse_lazy('catalog:home')
 
