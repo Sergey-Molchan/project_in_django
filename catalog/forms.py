@@ -2,7 +2,7 @@ import os
 from django.core.files.images import get_image_dimensions
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Product  # ⬅️ Импортируем из catalog!
+from .models import Product
 
 
 class ProductForm(forms.ModelForm):
