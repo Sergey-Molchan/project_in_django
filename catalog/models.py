@@ -1,7 +1,5 @@
 from django.db import models
-
-
-
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='Наименование')
@@ -14,7 +12,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name='Наименование')
     description = models.TextField(blank=True, verbose_name='Описание')
@@ -23,6 +20,8 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
+    # ⬅️ ДОБАВЛЯЕМ СВЯЗЬ С ПОЛЬЗОВАТЕЛЕМ
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Создатель', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Продукт'
@@ -30,7 +29,6 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class Contact(models.Model):
     address = models.TextField(verbose_name='Адрес')
@@ -46,4 +44,3 @@ class Contact(models.Model):
 
     def __str__(self):
         return 'Контактная информация'
-
