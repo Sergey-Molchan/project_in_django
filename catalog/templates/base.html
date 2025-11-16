@@ -62,7 +62,9 @@
                             <li><a class="dropdown-item {% if request.resolver_match.url_name == 'cloth' %}active{% endif %}" href="{% url 'catalog:cloth' %}">Одежда</a></li>
                             <li><a class="dropdown-item {% if request.resolver_match.url_name == 'house_garden' %}active{% endif %}" href="{% url 'catalog:house_garden' %}">Дом и сад</a></li>
                             <li><a class="dropdown-item {% if request.resolver_match.url_name == 'blog_list' %}active{% endif %}" href="{% url 'blog_list' %}">Блог</a></li>
+                            {% if user.is_authenticated%}
                             <li><a class="dropdown-item {% if request.resolver_match.url_name == 'product_create' %}active{% endif %}" href="{% url 'catalog:product_create' %}">Создать продукт</a></li>
+                            {% endif %}
                         </ul>
                     </li>
 
