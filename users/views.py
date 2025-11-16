@@ -1,8 +1,9 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, UpdateView
 from django.shortcuts import redirect, get_object_or_404
 from .forms import UsersRegisterForm
 from .models import User
@@ -75,3 +76,21 @@ def email_verification(request, token):
         messages.error(request, '❌ Неверная или устаревшая ссылка подтверждения.')
 
     return redirect('users:login')
+
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = 'users/profile.html'
+    fields = ['email', 'avatar', 'phone_number', 'tg_name', 'country']
+    success_url = reverse_lazy('users:profile')
+
+    def get_object(self):
+        return self.request.user
+
+    def form_valid(self, form):
+        messages.success(self.request, '✅ Профиль успешно обновлен!')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, '❌ Ошибка при обновлении профиля. Проверьте данные.')
+        return super().form_invalid(form)

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}iShop - Интернет-магазин{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         html, body { height: 100%; margin: 0; padding: 0; }
         body { display: flex; flex-direction: column; min-height: 100vh; }
@@ -35,49 +36,89 @@
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:logout' %}">Выход</a>
+                        <a class="nav-link" href="{% url 'users:profile' %}">
+                            <i class="bi bi-person-circle"></i> Профиль
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:logout' %}">
+                            <i class="bi bi-box-arrow-right"></i> Выход
+                        </a>
                     </li>
                     {% else %}
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}"
-                           href="{% url 'users:login' %}">Вход</a>
+                           href="{% url 'users:login' %}">
+                            <i class="bi bi-box-arrow-in-right"></i> Вход
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}"
-                           href="{% url 'users:register' %}">Регистрация</a>
+                           href="{% url 'users:register' %}">
+                            <i class="bi bi-person-plus"></i> Регистрация
+                        </a>
                     </li>
                     {% endif %}
 
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
-                           href="{% url 'catalog:home' %}">Главная</a>
+                           href="{% url 'catalog:home' %}">
+                            <i class="bi bi-house"></i> Главная
+                        </a>
                     </li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                            Категории
+                            <i class="bi bi-grid"></i> Категории
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'electronics' %}active{% endif %}" href="{% url 'catalog:electronics' %}">Электроника</a></li>
-                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'cloth' %}active{% endif %}" href="{% url 'catalog:cloth' %}">Одежда</a></li>
-                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'house_garden' %}active{% endif %}" href="{% url 'catalog:house_garden' %}">Дом и сад</a></li>
-                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'blog_list' %}active{% endif %}" href="{% url 'blog_list' %}">Блог</a></li>
-                            {% if user.is_authenticated%}
-                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'product_create' %}active{% endif %}" href="{% url 'catalog:product_create' %}">Создать продукт</a></li>
+                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'electronics' %}active{% endif %}" href="{% url 'catalog:electronics' %}">
+                                <i class="bi bi-phone"></i> Электроника
+                            </a></li>
+                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'cloth' %}active{% endif %}" href="{% url 'catalog:cloth' %}">
+                                <i class="bi bi-bag"></i> Одежда
+                            </a></li>
+                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'house_garden' %}active{% endif %}" href="{% url 'catalog:house_garden' %}">
+                                <i class="bi bi-house-door"></i> Дом и сад
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'blog_list' %}active{% endif %}" href="{% url 'blog_list' %}">
+                                <i class="bi bi-journal-text"></i> Блог
+                            </a></li>
+                            {% if user.is_authenticated %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'product_create' %}active{% endif %}" href="{% url 'catalog:product_create' %}">
+                                <i class="bi bi-plus-circle"></i> Создать продукт
+                            </a></li>
                             {% endif %}
                         </ul>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'contacts' %}active{% endif %}"
-                           href="{% url 'catalog:contacts' %}">Контакты</a>
+                           href="{% url 'catalog:contacts' %}">
+                            <i class="bi bi-telephone"></i> Контакты
+                        </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <main>{% block content %}{% endblock %}</main>
+    <main>
+        {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
 
     <footer class="bg-dark text-white py-4 mt-auto">
         <div class="container text-center">
