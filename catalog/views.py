@@ -3,9 +3,11 @@ from .models import Category, Product
 from django.views.generic import UpdateView, DetailView, CreateView, TemplateView, ListView, DeleteView
 from .forms import ProductForm
 from django.urls import reverse_lazy
-from django.core.exceptions import PermissionDenied
 from .mixins import OwnerRequiredMixin, OwnerOrModeratorMixin
 from django.db import models
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+
 
 
 class HomeView(TemplateView):
@@ -54,16 +56,26 @@ class ProductDetailView(DetailView):
     template_name = 'product_detail.html'
 
     def get_queryset(self):
-        # Базовый queryset - только опубликованные продукты
-        queryset = Product.objects.filter(status='published')
+        # Для всех пользователей показываем все продукты
+        # Права доступа проверяем в get_object()
+        return Product.objects.all()
 
-        # Если пользователь аутентифицирован и имеет права, показываем все
-        if self.request.user.is_authenticated:
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+
+        # Проверяем доступ к неопубликованному продукту
+        if obj.status != 'published' and self.request.user.is_authenticated:
             user = self.request.user
-            if user.has_perm('catalog.can_unpublish_product'):
-                return Product.objects.all()
+            if user != obj.owner and not user.has_perm('catalog.can_unpublish_product'):
+                from django.http import Http404
+                raise Http404("Продукт не найден")
 
-        return queryset
+        # Для неаутентифицированных пользователей - только опубликованные
+        if not self.request.user.is_authenticated and obj.status != 'published':
+            from django.http import Http404
+            raise Http404("Продукт не найден")
+
+        return obj
 
     def get_object(self, queryset=None):
         """Переопределяем получение объекта для проверки прав владельца"""
@@ -139,23 +151,33 @@ class ProductListView(ListView):
         return Product.objects.filter(status='published')
 
 
-class ProductPublishView(LoginRequiredMixin, OwnerOrModeratorMixin, UpdateView):
+class ProductPublishView(LoginRequiredMixin, UpdateView):
     """Публикация/отмена публикации продукта"""
     model = Product
-    fields = []  # Только меняем статус
+    fields = []
     template_name = 'product_confirm_publish.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        # Проверяем права до вызова метода
+        product = self.get_object()
+        user = request.user
+
+        if product.status == 'published':
+            # Отмена публикации - только модераторы
+            if not user.has_perm('catalog.can_unpublish_product'):
+                raise PermissionDenied("У вас нет прав для отмены публикации")
+        else:
+            # Публикация - владелец или модератор
+            if user != product.owner and not user.has_perm('catalog.can_unpublish_product'):
+                raise PermissionDenied("Только владелец или модератор может публиковать продукт")
+
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         product = self.get_object()
         if product.status == 'published':
-            # Отмена публикации - проверяем права
-            if not self.request.user.has_perm('catalog.can_unpublish_product'):
-                raise PermissionDenied("У вас нет прав для отмены публикации")
             product.status = 'draft'
         else:
-            # Публикация - может владелец
-            if product.owner != self.request.user:
-                raise PermissionDenied("Только владелец может публиковать продукт")
             product.status = 'published'
 
         product.save()
