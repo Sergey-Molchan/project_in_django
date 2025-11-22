@@ -3,7 +3,7 @@ from .models import Category, Product, Contact
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')  # ← id и name как в ТЗ!
+    list_display = ('id', 'name')
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
