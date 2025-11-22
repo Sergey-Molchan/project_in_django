@@ -34,15 +34,22 @@
             </div>
 
             <!-- Кнопки управления для автора или staff -->
-            {% if user.is_authenticated and user == product.user or user.is_staff %}
-            <div class="btn-group">
-                <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-outline-primary">
-                    Редактировать
-                </a>
-                <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-outline-danger">
-                    Удалить
-                </a>
-            </div>
+            {% if user.is_authenticated %}
+                {% if user == product.owner or perms.catalog.delete_product %}
+                    <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+                {% endif %}
+
+                {% if user == product.owner %}
+                    <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-warning">Редактировать</a>
+                {% endif %}
+
+                {% if user == product.owner or perms.catalog.can_unpublish_product %}
+                    {% if product.status == 'published' %}
+                        <a href="{% url 'catalog:product_publish' product.pk %}" class="btn btn-info">Снять с публикации</a>
+                    {% else %}
+                        <a href="{% url 'catalog:product_publish' product.pk %}" class="btn btn-success">Опубликовать</a>
+                    {% endif %}
+                {% endif %}
             {% endif %}
 
             <a href="{% url 'catalog:home' %}" class="btn btn-secondary ms-2">
