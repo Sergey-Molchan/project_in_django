@@ -124,22 +124,6 @@ class ProductUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
         return reverse_lazy('catalog:product_detail', kwargs={'pk': self.object.pk})
 
 
-class ProductDeleteView(LoginRequiredMixin, OwnerOrModeratorMixin, DeleteView):
-    model = Product
-    template_name = 'product_confirm_delete.html'
-    success_url = reverse_lazy('catalog:home')
-
-    def get_queryset(self):
-        # Ограничиваем queryset для безопасности
-        queryset = super().get_queryset()
-        user = self.request.user
-
-        if user.groups.filter(name='Модератор продуктов').exists() or user.has_perm('catalog.can_unpublish_product'):
-            return queryset
-        else:
-            return queryset.filter(owner=user)
-
-
 
 class ProductListView(ListView):
     """Список всех продуктов (для модераторов и владельцев)"""
@@ -196,3 +180,22 @@ class ProductPublishView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse_lazy('catalog:product_detail', kwargs={'pk': self.object.pk})
 
+
+class ProductDeleteView(LoginRequiredMixin, OwnerOrModeratorMixin, DeleteView):
+    model = Product
+    template_name = 'product_confirm_delete.html'
+    success_url = reverse_lazy('catalog:home')
+
+    def get_queryset(self):
+        """Ограничиваем queryset для безопасности"""
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        # Модераторы и суперпользователи видят все
+        if (user.is_superuser or
+                user.groups.filter(name='Модератор продуктов').exists() or
+                user.has_perm('catalog.can_unpublish_product')):
+            return queryset
+
+        #
+        return queryset.filter(owner=user)

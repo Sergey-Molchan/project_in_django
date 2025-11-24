@@ -32,19 +32,13 @@ class OwnerOrModeratorMixin(UserPassesTestMixin):
         # Владелец может управлять своим продуктом
         if obj.owner == user:
             return True
+        is_moderator = (
+                user.groups.filter(name='Модератор продуктов').exists() or
+                user.has_perm('catalog.can_unpublish_product') or
+                user.is_superuser or
+                user.has_perm('catalog.delete_product')
+        )
 
-        # Модератор может удалять любые продукты
-        # Проверяем принадлежность к группе ИЛИ наличие права
-        if (user.groups.filter(name='Модератор продуктов').exists() or
-            user.has_perm('catalog.can_unpublish_product')):
-            return True
-
-        return False
-
-
-        if user.has_perm('catalog.can_unpublish_product'):
-            return True
-
-        return False
+        return is_moderator
 
 
