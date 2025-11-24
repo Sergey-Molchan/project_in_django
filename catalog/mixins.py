@@ -29,12 +29,14 @@ class OwnerOrModeratorMixin(UserPassesTestMixin):
         obj = self.get_object()
         user = self.request.user
 
-        # Владелец может управлять своим продуктом
+
         if obj.owner == user:
             return True
 
-        # Модератор может удалять любые продукты
-        if user.has_perm('catalog.can_unpublish_product') and user.has_perm('catalog.delete_product'):
+
+        if user.has_perm('catalog.can_unpublish_product'):
             return True
 
         return False
+
+

@@ -1,9 +1,11 @@
+from django.contrib.auth.decorators import permission_required
+
 from . import views
 from django.urls import path
 from .views import (
     HomeView, ContactsView, ElectronicsView,
     ClothView, HouseGardenView, ProductDeleteView, ProductCreateView,
-    ProductDetailView, ProductUpdateView
+    ProductDetailView, ProductUpdateView, ProductPublishView
 )
 
 app_name = 'catalog'
@@ -19,4 +21,5 @@ urlpatterns = [
     path('product/<int:pk>/update/', ProductUpdateView.as_view(), name='product_update'),
     path('product/<int:pk>/delete/', ProductDeleteView.as_view(), name='product_delete'),
     path('product/<int:pk>/publish/', views.ProductPublishView.as_view(), name='product_publish'),
+    path('product/<int:pk>/publish/', permission_required('catalog.can_unpublish_product')(ProductPublishView.as_view()), name='product_publish'),
 ]
