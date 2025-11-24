@@ -179,3 +179,54 @@ class ProductPublishView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('catalog:product_detail', kwargs={'pk': self.object.pk})
+
+
+Showing
+with 0 additions and 20 deletions.
+20
+changes: 0
+additions & 20
+deletions
+20
+catalog / views.py
+
+Original
+file
+line
+number
+Diff
+line
+number
+Diff
+line
+change
+
+
+@ @-179
+
+, 23 + 179, 3 @ @
+
+
+def form_valid(self, form):
+    def get_success_url(self):
+        return reverse_lazy('catalog:product_detail', kwargs={'pk': self.object.pk})
+
+
+class ProductDeleteView(LoginRequiredMixin, OwnerOrModeratorMixin, DeleteView):
+    model = Product
+    template_name = 'product_confirm_delete.html'
+    success_url = reverse_lazy('catalog:home')
+
+    def get_queryset(self):
+        """Ограничиваем queryset для безопасности"""
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        # Модераторы и суперпользователи видят все
+        if (user.is_superuser or
+                user.groups.filter(name='Модератор продуктов').exists() or
+                user.has_perm('catalog.can_unpublish_product')):
+            return queryset
+
+        #
+        return queryset.filter(owner=user)
