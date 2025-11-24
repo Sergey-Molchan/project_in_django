@@ -1,0 +1,14 @@
+[
+{
+    "model": "catalog.contact",
+    "pk": 1,
+    "fields": {
+        "address": "г. Москва, ул. Тверская, д. 10, офис 25",
+        "phone": "+7 (495) 123-45-67",
+        "email": "info@shop-django.ru",
+        "schedule": "Пн-Пт: 9:00-21:00, Сб-Вс: 10:00-20:00",
+        "created_at": "2024-01-01T10:00:00Z",
+        "updated_at": "2024-01-15T14:30:00Z"
+    }
+}
+]
