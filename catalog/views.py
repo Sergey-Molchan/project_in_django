@@ -181,31 +181,6 @@ class ProductPublishView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('catalog:product_detail', kwargs={'pk': self.object.pk})
 
 
-Showing
-with 0 additions and 20 deletions.
-20
-changes: 0
-additions & 20
-deletions
-20
-catalog / views.py
-
-Original
-file
-line
-number
-Diff
-line
-number
-Diff
-line
-change
-
-
-@ @-179
-
-, 23 + 179, 3 @ @
-
 
 def form_valid(self, form):
     def get_success_url(self):
