@@ -199,3 +199,4 @@ class ProductDeleteView(LoginRequiredMixin, OwnerOrModeratorMixin, DeleteView):
 
         #
         return queryset.filter(owner=user)
+
