@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Изменение статуса публикации</h2>
+                </div>
+                <div class="card-body">
+                    <p>Вы уверены, что хотите
+                        {% if product.status == 'published' %}
+                            <strong>снять с публикации</strong> продукт "{{ product.name }}"?
+                        {% else %}
+                            <strong>опубликовать</strong> продукт "{{ product.name }}"?
+                        {% endif %}
+                    </p>
+
+                    <!-- Убедись, что форма имеет method="post" -->
+                    <form method="post">
+                        {% csrf_token %}
+                        <!-- Убедись, что нет других скрытых полей, которые могут мешать -->
+                        <button type="submit" class="btn btn-warning">
+                            {% if product.status == 'published' %}
+                                Снять с публикации
+                            {% else %}
+                                Опубликовать
+                            {% endif %}
+                        </button>
+                        <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-secondary">Отмена</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
