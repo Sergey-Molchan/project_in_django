@@ -161,4 +161,27 @@ yarn-error.log*
 # Production build
 build/
 dist/
-.env.sample\
+# Django
+*.log
+*.sqlite3
+db.sqlite3
+__pycache__/
+*.pyc
+*.pyo
+.env
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Статические файлы
+/staticfiles/
+/mediafiles/
+
+# Миграции (если не нужны в репозитории)
+*/migrations/00*.py
+!*/migrations/__init__.py
+
