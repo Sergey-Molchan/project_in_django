@@ -1,105 +1,140 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Skystore</title>
-    <!-- Подключите статичеcкие файлы со стилями Bootstrap -->
-</head>
-<body>
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5 class="my-0 mr-md-auto font-weight-normal">Skystore</h5>
-    <nav class="ms-5">
-        <a class="p-2 btn btn-outline-primary" href="/">Каталог</a>
-        <a class="p-2 btn btn-outline-primary" href="/contacts/">Контакты</a>
-    </nav>
-</div>
+{% extends 'base.html' %}
 
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Контакты</h1>
-</div>
+{% block title %}Контакты - iShop{% endblock %}
 
-<div class="container">
-    <div class="row text-start">
-        <div class="col-lg-9 col-md-6 col-sm-12">
-            <div class="card mb-4 box-shadow">
-                <div class="card-body">
-                    <table class="table table-striped">
-                        <tr>
-                            <td class="w-25">Страна</td>
-                            <td>USA</td>
-                        </tr>
-                        <tr>
-                            <td class="w-25">ИНН</td>
-                            <td>91-1144442</td>
-                        </tr>
-                        <tr>
-                            <td class="w-25">Адрес</td>
-                            <td>Redmond,WA,98052-6399</td>
-                        </tr>
-                    </table>
+{% block content %}
+    <!-- Шапка контактов -->
+    <section class="contact-hero text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">Свяжитесь с нами</h1>
+            <p class="lead">Мы всегда рады помочь вам! Ответим на все вопросы</p>
+        </div>
+    </section>
+
+    <!-- Контактная информация и форма -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Контактная информация -->
+                <div class="col-lg-6 mb-5">
+                    <h2 class="mb-4">Наши контакты</h2>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="contact-card card h-100 text-center p-4">
+                                <div class="contact-icon">
+                                    <span style="color: white; font-size: 30px;">📍</span>
+                                </div>
+                                <h5>Адрес</h5>
+                                <p class="text-muted">г. Москва, ул. Тверская, д. 15</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="contact-card card h-100 text-center p-4">
+                                <div class="contact-icon">
+                                    <span style="color: white; font-size: 30px;">📞</span>
+                                </div>
+                                <h5>Телефон</h5>
+                                <p class="text-muted">+7 (495) 123-45-67</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="contact-card card h-100 text-center p-4">
+                                <div class="contact-icon">
+                                    <span style="color: white; font-size: 30px;">✉️</span>
+                                </div>
+                                <h5>Email</h5>
+                                <p class="text-muted">info@ishop.ru</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="contact-card card h-100 text-center p-4">
+                                <div class="contact-icon">
+                                    <span style="color: white; font-size: 30px;">🕒</span>
+                                </div>
+                                <h5>Режим работы</h5>
+                                <p class="text-muted">Пн-Пт: 9:00-20:00<br>Сб-Вс: 10:00-18:00</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Дополнительная информация -->
+                    <div class="mt-4">
+                        <h5 class="mb-3">Мы в соцсетях</h5>
+                        <div class="d-flex gap-3">
+                            <a href="#" class="btn btn-outline-primary">VK</a>
+                            <a href="#" class="btn btn-outline-primary">Telegram</a>
+                            <a href="#" class="btn btn-outline-primary">Instagram</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Форма обратной связи -->
+                <div class="col-lg-6">
+                    <div class="contact-card card p-4">
+                        <h2 class="mb-4">Обратная связь</h2>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Ваше имя *</label>
+                                    <input type="text" class="form-control" id="name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Телефон</label>
+                                <input type="tel" class="form-control" id="phone">
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Тема сообщения</label>
+                                <select class="form-select" id="subject">
+                                    <option selected>Выберите тему</option>
+                                    <option>Вопрос о товаре</option>
+                                    <option>Техническая поддержка</option>
+                                    <option>Сотрудничество</option>
+                                    <option>Жалоба</option>
+                                    <option>Другое</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Сообщение *</label>
+                                <textarea class="form-control" id="message" rows="5" required></textarea>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="agreement" required>
+                                <label class="form-check-label" for="agreement">
+                                    Я соглашаюсь с обработкой персональных данных
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                Отправить сообщение
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Свяжитесь с нами</h4>
-                </div>
-                <div class="card-body">
-                    <form method="post" action="" class="form-floating">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="name">Имя</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Ваше имя" required>
+    </section>
+
+    <!-- Карта -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Как нас найти</h2>
+            <div class="contact-card card p-0">
+                <div class="card-body p-0">
+                    <!-- Заглушка для карты -->
+                    <div style="height: 400px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white;">
+                        <div class="text-center">
+                            <h3>Карта расположения</h3>
+                            <p>г. Москва, ул. Тверская, д. 15</p>
+                            <small>Здесь будет интерактивная карта</small>
                         </div>
-                        <div class="mb-3">
-                            <label for="phone">Телефон</label>
-                            <input type="text" name="phone" class="form-control" id="phone" placeholder="Контактный телефон" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="message">Сообщение</label>
-                            <textarea type="text" name="message" class="form-control" id="message" placeholder="Контактный телефон" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Отправить</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
-        <div class="row">
-            <div class="col-12 col-md">
-                SkyStore
-                <small class="d-block mb-3 text-muted">&copy; 2023</small>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Категории</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Рассылки</a></li>
-                    <li><a class="text-muted" href="#">Телеграм боты</a></li>
-                    <li><a class="text-muted" href="#">Полезные утилиты</a></li>
-                    <li><a class="text-muted" href="#">Веб-приложения</a></li>
-                    <li><a class="text-muted" href="#">Микросервисы</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Дополнительно</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Мы пишем</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>О нас</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="/contacts/">Контакты</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-</div>
-
-<!-- Подключите статичеcкие файлы со скриптами Bootstrap -->
-</body>
-</html>
+    </section>
+{% endblock %}

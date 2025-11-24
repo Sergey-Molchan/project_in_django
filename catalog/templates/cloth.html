@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Одежда - iShop{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'catalog:home' %}">Главная</a></li>
+            <li class="breadcrumb-item active">Одежда</li>
+        </ol>
+    </nav>
+
+    <h1 class="text-center mb-5">Одежда</h1>
+
+    <div class="row">
+        {% for product in clothing_products %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 category-card">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}"
+                     style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
+                     style="height: 200px;">
+                    <span class="text-muted">Нет изображения</span>
+                </div>
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <!-- ИЗМЕНЕНИЕ: сокращаем описание -->
+                    <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                    <p class="card-text"><strong>{{ product.price }} ₽</strong></p>
+                </div>
+                <div class="card-footer">
+                    <!-- ИЗМЕНЕНИЕ: добавляем ссылку на детальную страницу -->
+                    <a href="{% url 'catalog:product_detail' pk=product.pk %}"
+                       class="btn btn-outline-primary w-100 mb-2">Подробнее</a>
+                    <button class="btn btn-primary w-100">В корзину</button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="lead">Товары временно отсутствуют</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
