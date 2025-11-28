@@ -181,6 +181,14 @@ class ProductPublishView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('catalog:product_detail', kwargs={'pk': self.object.pk})
 
 
+
+
+
+def form_valid(self, form):
+    def get_success_url(self):
+        return reverse_lazy('catalog:product_detail', kwargs={'pk': self.object.pk})
+
+
 class ProductDeleteView(LoginRequiredMixin, OwnerOrModeratorMixin, DeleteView):
     model = Product
     template_name = 'product_confirm_delete.html'
@@ -198,5 +206,7 @@ class ProductDeleteView(LoginRequiredMixin, OwnerOrModeratorMixin, DeleteView):
             return queryset
 
         #
+
         return queryset.filter(owner=user)
+
 
