@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная - iShop{% endblock %}
+
+{% block content %}
+    <!-- Герой-секция -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">Добро пожаловать в iShop</h1>
+            <p class="lead mb-4">Лучшие товары по доступным ценам с быстрой доставкой</p>
+            <p class="mb-4">
+                <strong>В нашем магазине:</strong><br>
+                {{ categories_count }} категорий и {{ products_count }} товаров
+            </p>
+            <!-- ИСПРАВЛЕННАЯ ССЫЛКА -->
+            <a href="{% url 'catalog:contacts' %}" class="btn btn-light btn-lg">Связаться с нами</a>
+        </div>
+    </section>
+
+    <!-- Особенности -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-icon">
+                        <span style="color: white; font-size: 24px;">🚚</span>
+                    </div>
+                    <h3>Быстрая доставка</h3>
+                    <p>Доставка по всему городу в течение 24 часов</p>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-icon">
+                        <span style="color: white; font-size: 24px;">💎</span>
+                    </div>
+                    <h3>Гарантия качества</h3>
+                    <p>Все товары проходят строгий контроль качества</p>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-icon">
+                        <span style="color: white; font-size: 24px;">🔒</span>
+                    </div>
+                    <h3>Безопасная оплата</h3>
+                    <p>Различные способы оплаты с защитой данных</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Популярные категории -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Популярные категории</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <!-- ИСПРАВЛЕННАЯ ССЫЛКА -->
+                    <a href="{% url 'catalog:electronics' %}" class="text-decoration-none">
+                        <div class="card h-100 category-card">
+                            <img src="https://via.placeholder.com/300x200?text=Электроника" class="card-img-top" alt="Электроника">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-dark">Электроника</h5>
+                                <p class="card-text text-muted">Смартфоны, ноутбуки, планшеты и аксессуары</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <!-- ИСПРАВЛЕННАЯ ССЫЛКА -->
+                    <a href="{% url 'catalog:cloth' %}" class="text-decoration-none">
+                        <div class="card h-100 category-card">
+                            <img src="https://via.placeholder.com/300x200?text=Одежда" class="card-img-top" alt="Одежда">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-dark">Одежда</h5>
+                                <p class="card-text text-muted">Модная одежда для всех возрастов</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <!-- ИСПРАВЛЕННАЯ ССЫЛКА -->
+                    <a href="{% url 'catalog:house_garden' %}" class="text-decoration-none">
+                        <div class="card h-100 category-card">
+                            <img src="https://via.placeholder.com/300x200?text=Дом+и+сад" class="card-img-top" alt="Дом и сад">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-dark">Дом и сад</h5>
+                                <p class="card-text text-muted">Все для уюта в вашем доме</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

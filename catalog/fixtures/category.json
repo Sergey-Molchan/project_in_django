@@ -1,0 +1,66 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Электроника",
+        "description": "Современные электронные устройства и гаджеты"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Одежда",
+        "description": "Модная одежда для всех возрастов"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "name": "Книги",
+        "description": "Художественная и образовательная литература"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+        "name": "Дом и сад",
+        "description": "Товары для дома, сада и ремонта"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 5,
+    "fields": {
+        "name": "Спорт",
+        "description": "Спортивные товары и инвентарь"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 6,
+    "fields": {
+        "name": "Красота и здоровье",
+        "description": "Косметика, парфюмерия и товары для здоровья"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 7,
+    "fields": {
+        "name": "Игры и хобби",
+        "description": "Настольные игры, конструкторы и хобби"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 8,
+    "fields": {
+        "name": "Автотовары",
+        "description": "Автомобильные аксессуары и запчасти"
+    }
+}
+]
