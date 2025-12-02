@@ -41,4 +41,3 @@ class OwnerOrModeratorMixin(UserPassesTestMixin):
 
         return is_moderator
 
-
