@@ -8,6 +8,7 @@ from django.db import models
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
 
+from .services import get_product_from_cache
 
 
 class HomeView(TemplateView):
@@ -143,6 +144,9 @@ class ProductListView(ListView):
                 models.Q(owner=user) | models.Q(status='published')
             )
         return Product.objects.filter(status='published')
+
+    def get_queryset(self):
+        return get_product_from_cache()
 
 
 class ProductPublishView(LoginRequiredMixin, UpdateView):
