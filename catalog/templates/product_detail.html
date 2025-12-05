@@ -52,10 +52,23 @@
                 {% endif %}
             {% endif %}
 
-            <a href="{% url 'catalog:home' %}" class="btn btn-secondary ms-2">
-                Назад к каталогу
-            </a>
+            {% if request.GET.source == 'category' and request.GET.from %}
+                <a href="{% url 'catalog:category_products' request.GET.from %}"
+                   class="btn btn-secondary ms-2">
+                    ← Назад в категорию
+                </a>
+            {% elif request.GET.source == 'all' %}
+                <a href="{% url 'catalog:product_list' %}"
+                   class="btn btn-secondary ms-2">
+                    ← Назад ко всем товарам
+                </a>
+            {% else %}
+                <a href="{% url 'catalog:product_list' %}"
+                   class="btn btn-secondary ms-2">
+                    ← К товарам
+                </a>
+            {% endif %}
         </div>
     </div>
 </div>
-{% endblock %}
+{% endblock %}}
