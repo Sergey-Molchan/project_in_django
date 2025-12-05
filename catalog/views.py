@@ -8,7 +8,7 @@ from django.db import models
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
 
-from .services import get_product_from_cache
+from .services import get_product_from_cache, get_products_by_category_from_cache, get_categories_from_cache
 
 
 class HomeView(TemplateView):
@@ -18,6 +18,7 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['categories_count'] = Category.objects.count()
         context['products_count'] = Product.objects.count()
+        context['categories'] = Category.objects.all()
         return context
 
 
@@ -52,6 +53,25 @@ class HouseGardenView(ListView):
         return Product.objects.filter(category__name='Дом и сад', status='published')
 
 
+class CategoryProductListView(ListView):
+    """
+    Универсальное представление для отображения продуктов по категории.
+    Использует сервисную функцию для получения данных с кешированием.
+    """
+    template_name = 'catalog/category_products.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        category_slug = self.kwargs.get('category_slug')
+        return get_products_by_category_from_cache(category_slug)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_slug = self.kwargs.get('category_slug')
+        context['category'] = Category.objects.get(slug=category_slug)
+        return context
+
+
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'product_detail.html'
@@ -75,19 +95,6 @@ class ProductDetailView(DetailView):
         if not self.request.user.is_authenticated and obj.status != 'published':
             from django.http import Http404
             raise Http404("Продукт не найден")
-
-        return obj
-
-    def get_object(self, queryset=None):
-        """Переопределяем получение объекта для проверки прав владельца"""
-        obj = super().get_object(queryset)
-
-        # Если продукт не опубликован, проверяем права доступа
-        if obj.status != 'published' and self.request.user.is_authenticated:
-            user = self.request.user
-            if user != obj.owner and not user.has_perm('catalog.can_unpublish_product'):
-                from django.http import Http404
-                raise Http404("Продукт не найден")
 
         return obj
 
@@ -125,7 +132,6 @@ class ProductUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
         return reverse_lazy('catalog:product_detail', kwargs={'pk': self.object.pk})
 
 
-
 class ProductListView(ListView):
     """Список всех продуктов (для модераторов и владельцев)"""
     model = Product
@@ -133,20 +139,12 @@ class ProductListView(ListView):
     context_object_name = 'products'
 
     def get_queryset(self):
-        # Для модераторов и владельцев показываем все продукты
-        # Для остальных - только опубликованные
-        if self.request.user.is_authenticated:
-            user = self.request.user
-            if user.has_perm('catalog.can_unpublish_product'):
-                return Product.objects.all()
-            # Владельцы видят свои продукты + опубликованные
-            return Product.objects.filter(
-                models.Q(owner=user) | models.Q(status='published')
-            )
-        return Product.objects.filter(status='published')
-
-    def get_queryset(self):
         return get_product_from_cache()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = get_categories_from_cache()
+        return context
 
 
 class ProductPublishView(LoginRequiredMixin, UpdateView):
@@ -185,14 +183,6 @@ class ProductPublishView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('catalog:product_detail', kwargs={'pk': self.object.pk})
 
 
-
-
-
-def form_valid(self, form):
-    def get_success_url(self):
-        return reverse_lazy('catalog:product_detail', kwargs={'pk': self.object.pk})
-
-
 class ProductDeleteView(LoginRequiredMixin, OwnerOrModeratorMixin, DeleteView):
     model = Product
     template_name = 'product_confirm_delete.html'
@@ -209,8 +199,5 @@ class ProductDeleteView(LoginRequiredMixin, OwnerOrModeratorMixin, DeleteView):
                 user.has_perm('catalog.can_unpublish_product')):
             return queryset
 
-        #
-
         return queryset.filter(owner=user)
-
 

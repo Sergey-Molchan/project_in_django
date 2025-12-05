@@ -68,32 +68,35 @@
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-grid"></i> Категории
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'electronics' %}active{% endif %}" href="{% url 'catalog:electronics' %}">
-                                <i class="bi bi-phone"></i> Электроника
-                            </a></li>
-                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'cloth' %}active{% endif %}" href="{% url 'catalog:cloth' %}">
-                                <i class="bi bi-bag"></i> Одежда
-                            </a></li>
-                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'house_garden' %}active{% endif %}" href="{% url 'catalog:house_garden' %}">
-                                <i class="bi bi-house-door"></i> Дом и сад
-                            </a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'blog_list' %}active{% endif %}" href="{% url 'blog_list' %}">
-                                <i class="bi bi-journal-text"></i> Блог
-                            </a></li>
-                            {% if user.is_authenticated %}
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'product_create' %}active{% endif %}" href="{% url 'catalog:product_create' %}">
-                                <i class="bi bi-plus-circle"></i> Создать продукт
-                            </a></li>
-                            {% endif %}
-                        </ul>
-                    </li>
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+        <i class="bi bi-grid"></i> Категории
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="{% url 'catalog:electronics' %}">
+            <i class="bi bi-phone"></i> Электроника
+        </a></li>
+        <li><a class="dropdown-item" href="{% url 'catalog:cloth' %}">
+            <i class="bi bi-bag"></i> Одежда
+        </a></li>
+        <li><a class="dropdown-item" href="{% url 'catalog:house_garden' %}">
+            <i class="bi bi-house-door"></i> Дом и сад
+        </a></li>
 
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{% url 'blog_list' %}">
+            <i class="bi bi-journal-text"></i> Блог
+        </a></li>
+        {% if user.is_authenticated %}
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{% url 'catalog:product_create' %}">
+            <i class="bi bi-plus-circle"></i> Создать продукт
+        </a></li>
+        <li><a class="dropdown-item" href="{% url 'catalog:product_list' %}">
+            <i class="bi bi-list"></i> Все продукты
+        </a></li>
+        {% endif %}
+    </ul>
+</li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'contacts' %}active{% endif %}"
                            href="{% url 'catalog:contacts' %}">
